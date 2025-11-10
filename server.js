@@ -13,10 +13,12 @@ const emailClient = new EmailClient(connectionString);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Serve the form page
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
+// Handle form submission
 app.post('/submit', async (req, res) => {
   const { name, email, payment_id } = req.body;
 
@@ -32,8 +34,10 @@ app.post('/submit', async (req, res) => {
   };
 
   try {
-    const response = await emailClient.send(message);
-    console.log("Email sent:", response);
+    const poller = await emailClient.beginSend(message);
+    const response = await poller.pollUntilDone();
+
+    console.log("Email send status:", response.status);
     res.send(`
       <h2>Thank you!</h2>
       <p>Your payment reference has been received. We'll verify and send your access links shortly.</p>
