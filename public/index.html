@@ -6,12 +6,17 @@
 <body>
   <h2>Scan to Pay ₹50 via GPay</h2>
   <img src="gpay_qr.png" alt="GPay QR Code" width="300">
-  <p>After payment, please enter your email and UPI transaction ID below:</p>
+  <p>After payment, please enter your name, email, and UPI transaction ID below:</p>
   <form action="/submit" method="POST">
+    <label>Name (as shown in GPay):</label><br>
+    <input type="text" name="name" required><br><br>
+
     <label>Email:</label><br>
     <input type="email" name="email" required><br><br>
-    <label>Payment UPI transaction ID :</label><br>
+
+    <label>Payment UPI transaction ID:</label><br>
     <input type="text" name="payment_id" required><br><br>
+
     <button type="submit">Submit</button>
   </form>
 </body>
