@@ -22,6 +22,14 @@ app.get('/', (req, res) => {
 app.post('/submit', async (req, res) => {
   const { name, email, payment_id } = req.body;
 
+  // Server-side validation
+  if (!name || !email || !payment_id) {
+    return res.send(`
+      <h2>Error</h2>
+      <p>All fields are required. Please go back and fill out the form completely.</p>
+    `);
+  }
+
   const message = {
     senderAddress: "DoNotReply@77158898-0355-496e-8d6a-2591edb5ead8.azurecomm.net", // must be verified in Azure
     content: {
