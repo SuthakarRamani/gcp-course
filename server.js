@@ -1,10 +1,17 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const basicAuth = require('express-basic-auth');
 const { EmailClient } = require('@azure/communication-email');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// 🔒 Basic Auth setup (username/password from environment variables)
+app.use(basicAuth({
+  users: { [process.env.AUTH_USER]: process.env.AUTH_PASS },
+  challenge: true   // forces browser popup for credentials
+}));
 
 // Set up Azure Email client
 const connectionString = process.env.AZURE_COMMUNICATION_CONNECTION_STRING;
